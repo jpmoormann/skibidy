@@ -14,8 +14,8 @@ class Request {
   public $route;
   public $params;
   public $headers;
-  function __construct() {
-    $this->route = str_replace(Config::$base,'',$_SERVER['REQUEST_URI']);
+  function __construct($base = '') {
+    $this->route = str_replace($base,'',$_SERVER['REQUEST_URI']);
     $this->method = $_SERVER['REQUEST_METHOD'];
   }
   function header($k) {
@@ -36,6 +36,7 @@ class Response {
   }
 }
 class Router {
+  public $base = '';
   public $routes;
   function __construct() {
     $this->routes = [];
@@ -63,7 +64,7 @@ class Router {
     $this->routes[] = new Route('DELETE', $u, $c);
   }
   function run() {
-    $req = new Request();
+    $req = new Request($this->base);
     $res = new Response();
     foreach($this->routes as $r) {
       if($r->method == $req->method) {
