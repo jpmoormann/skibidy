@@ -25,8 +25,6 @@ And that's it! If you hit that route, you'll receive a JSON response.
 
 To do more, check the docs below.
 
----
-
 ## Docs
 
 ### `Router`
@@ -72,13 +70,9 @@ Takes no arguments
 - `json(object $d)`
   - Returns a terminating JSON response with a value. Takes an object to return.
 
----
-
 ## Examples
 
 See the `index.php` file for a simple example to help get started
-
----
 
 ## Known Issues & Limitations
 
