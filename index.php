@@ -1,5 +1,7 @@
 <?php
 
+// Example implementation
+
 require 'skibidy.php';
 $router = new Router();
 
