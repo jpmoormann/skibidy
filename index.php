@@ -1,7 +1,6 @@
 <?php
 
-require 'a.php';
-require 'config.php';
+require 'skibidy.php';
 $router = new Router();
 
 $auth = function($req, $res) {
