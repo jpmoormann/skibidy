@@ -1,55 +1,80 @@
 # skibidy
 Simplest PHP, Express-like API router ever
 
-## get started
-Easy; just require or include skibidy.php into the root file of your endpoint. Only thing you need to make sure of is that your server redirects all routes to that file, i.e. via .htaccess if on apache.
+## Getting Started
+Just require/include `skibidy.php` into the root file of your endpoint. Only thing you need to make sure of is that your server redirects all routes to that file, i.e. via .htaccess if on apache.
 
-## how it works
-If you've used Express.js before, it's basically that with a few differences.
+If you've used Express.js before, it's basically that, just with some variations.
 
-If not, no worries. Just make a new Router instance:
-
-`$router = new Router();`
-
-and then add a route with a callback:
-
-`$router->get('/', fn($req, $res) => $res->json(['msg'=>'Hello!']));`
-
-finally, run it:
-`$router->run();`
-
-and that's pretty much it. If you hit that endpoint, you'll receive a JSON response.
-
-## cool! now what?
-
-Now you can add more routes with different methods and routes and callbacks.
-
-### supported methods
-
-`GET,POST,PUT,PATCH,DELETE`
-
-I'll work on OPTIONS and HEAD if anyone cares
-
-### callbacks
-
-Similar to Express, the callbacks are a spread argument, so you can tack on multiple "middleware" callbacks for things like authentication and prerequisites.
-
-```
-$auth = fn($req, $res) => $req->header('AUTHORIZATION') == 'token' ? true : $res->code(401);
-$router->post('/api', $authFunc, fn($req, $res) => ...);
-```
-
-### nested routes
-
-You can nest routers in each other using the `use()` function:
-
-```
+To start, make a new Router instance:
+```php
 $router = new Router();
-$api = new Router();
-$router->use('/api', $api);
 ```
 
-# known issues & limitations
+Then, add a route with a callback:
+```php
+$router->get('/', fn($req, $res) => $res->json(['msg'=>'Hello!']));
+```
+
+Finally, run it:
+```php
+$router->run();
+```
+
+And that's it! If you hit that route, you'll receive a JSON response.
+
+To do more, check the docs below.
+
+---
+
+## Docs
+
+### `Router`
+
+Handles matching the current request against a collection of routes. Takes an optional string for a base route to prepend to all routes
+
+**Methods**
+
+- `get(string $u, array ...$c)`
+  - Adds a GET route. Takes a string for the route to match on, and an array spread of functions for middleware and callbacks
+- `post(string $u, array ...$c)`
+  - Adds a POST route. Takes a string for the route to match on, and an array spread of functions for middleware and callbacks
+- `put(string $u, array ...$c)`
+  - Adds a PUT route. Takes a string for the route to match on, and an array spread of functions for middleware and callbacks
+- `patch(string $u, array ...$c)`
+  - Adds a PATCH route. Takes a string for the route to match on, and an array spread of functions for middleware and callbacks
+- `delete(string $u, array ...$c)`
+  - Adds a DELETE route. Takes a string for the route to match on, and an array spread of functions for middleware and callbacks
+- `use(string $u, Router $r, array ...$c)`
+  - Adds an existing Router instance to nest its routes under a route prefix. Takes a string for the route to match on, a Router instance to use for nested routes, and an array spread of functions for any optional middleware/callbacks.
+- `run()`
+  - Iterates over all routes to match on the current request. Takes no arguments. If no route is found, sends a 404 response code.
+
+### `Request`
+
+Takes an optional string for a base route to prepend to all routes
+
+**Methods**
+
+- `header(string $k)`
+  - Retrieve a request header's value by key.
+- `body()`
+  - Return the request payload body, parsed based on Content-Type header.
+
+### `Response`
+
+Takes no arguments
+
+**Methods**
+
+- `send(any $d, string $t)`
+  - Returns a terminating response with a value. Takes any data type to return, and a string for the Content-Type.
+- `json(object $d)`
+  - Returns a terminating JSON response with a value. Takes an object to return.
+
+---
+
+## Known Issues & Limitations
 
 - Kinda slow, but eh, it's interpreted
 - No async/await, sorry
