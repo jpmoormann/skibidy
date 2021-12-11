@@ -29,16 +29,28 @@ class Request {
   }
 }
 class Response {
+  function send($d, $t) {
+    header("Content-Type: $t");
+    echo match($t) {
+      'application/json' => json_encode($d),
+      'text/html' => $d,
+      default => $d
+    };
+    exit;
+  }
   function json($d) {
-    header('Content-Type: application/json');
-    echo json_encode($d);
+    echo $this->send($d, 'application/json');
+  }
+  function file($p) {
+    echo file_get_contents($p);
     exit;
   }
 }
 class Router {
-  public $base = '';
+  private $base;
   public $routes;
-  function __construct() {
+  function __construct(string $b = '') {
+    $this->base = $b;
     $this->routes = [];
   }
   function use($u, Router $r, ...$c) {
