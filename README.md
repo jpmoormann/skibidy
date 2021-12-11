@@ -74,6 +74,12 @@ Takes no arguments
 
 ---
 
+## Examples
+
+See the `index.php` file for a simple example to help get started
+
+---
+
 ## Known Issues & Limitations
 
 - Kinda slow, but eh, it's interpreted
