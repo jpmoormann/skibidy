@@ -44,9 +44,9 @@ Handles matching the current request against a collection of routes. Takes an op
 - `delete(string $u, array ...$c)`
   - Adds a DELETE route. Takes a string for the route to match on, and an array spread of functions for middleware and callbacks
 - `use(string $u, Router $r, array ...$c)`
-  - Adds an existing Router instance to nest its routes under a route prefix. Takes a string for the route to match on, a Router instance to use for nested routes, and an array spread of functions for any optional middleware/callbacks.
+  - Adds an existing Router instance to nest its routes under a route prefix. Takes a string for the route prefix to be prepended on each route, a Router instance to use for the nested routes, and an array spread of functions for any additional middleware/callbacks.
 - `run()`
-  - Iterates over all routes to match on the current request. Takes no arguments. If no route is found, sends a 404 response code.
+  - Iterates over all routes to match on the current request. Takes no arguments. If no route can be matched, terminates with a 404 response.
 
 ### `Request`
 
