@@ -13,7 +13,6 @@ class Request {
   public $method;
   public $route;
   public $params;
-  public $headers;
   function __construct($base = '') {
     $this->route = str_replace($base,'',$_SERVER['REQUEST_URI']);
     $this->method = $_SERVER['REQUEST_METHOD'];
@@ -54,13 +53,6 @@ class Router {
     $this->base = $b;
     $this->routes = [];
   }
-  function use($u, Router $r, ...$c) {
-    foreach($r->routes as &$sr) {
-      $sr->route = rtrim($u.$sr->route,'/');
-      if($c) $sr->callbacks = array_merge($c, $sr->callbacks);
-    }
-    $this->routes = array_merge($this->routes, $r->routes);
-  }
   function get($u, ...$c) {
     $this->routes[] = new Route('GET', $u, $c);
   }
@@ -76,7 +68,14 @@ class Router {
   function delete($u, ...$c) {
     $this->routes[] = new Route('DELETE', $u, $c);
   }
-  function match($s, $t) {
+  function use($u, Router $r, ...$c) {
+    foreach($r->routes as &$sr) {
+      $sr->route = rtrim($u.$sr->route,'/');
+      if($c) $sr->callbacks = array_merge($c, $sr->callbacks);
+    }
+    $this->routes = array_merge($this->routes, $r->routes);
+  }
+  private function match($s, $t) {
     if(str_contains($t,':') && substr_count($s,'/') == substr_count($t,'/')) {
       $p = (object)[];
       $sp = explode('/',$s);
