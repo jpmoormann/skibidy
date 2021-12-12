@@ -48,17 +48,17 @@ Handles matching the current request against a collection of routes. Takes an op
 - `routes` Array
 
 **Methods**
-- `get(string $u, array ...$c)`
+- `get()`
   - Adds a GET route. Takes a string for the route to match on, and an array spread of functions for middleware or callbacks
-- `post(string $u, array ...$c)`
+- `post()`
   - Adds a POST route. Takes a string for the route to match on, and an array spread of functions for middleware or callbacks
-- `put(string $u, array ...$c)`
+- `put()`
   - Adds a PUT route. Takes a string for the route to match on, and an array spread of functions for middleware or callbacks
-- `patch(string $u, array ...$c)`
+- `patch()`
   - Adds a PATCH route. Takes a string for the route to match on, and an array spread of functions for middleware or callbacks
-- `delete(string $u, array ...$c)`
+- `delete()`
   - Adds a DELETE route. Takes a string for the route to match on, and an array spread of functions for middleware or callbacks
-- `use(string $u, Router $r, array ...$c)`
+- `use()`
   - Adds an existing Router instance to nest its routes under a route prefix. Takes a string for the route prefix to be prepended on each route, a Router instance to use for the nested routes, and an array spread of functions for any additional middleware/callbacks.
 - `run()`
   - Iterates over all routes to match on the current request. Takes no arguments. If no route can be matched, terminates with a 404 response.
