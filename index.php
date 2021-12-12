@@ -14,5 +14,7 @@ $auth = function($req, $res) {
 
 $router->get('/', fn($req, $res) => $res->json(['msg'=>'Hello!']));
 $router->get('/api', $auth, fn($req, $res) => $res->json(['version'=>1.0]));
+$router->get('/api/:id', $auth, fn($req, $res) => $res->json($req->params));
+$router->get('/api/:id/thing/:aid', $auth, fn($req, $res) => $res->json($req->params));
 
 $router->run();
