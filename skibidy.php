@@ -17,6 +17,7 @@ class Request {
   function __construct($base = '') {
     $this->route = str_replace($base,'',$_SERVER['REQUEST_URI']);
     $this->method = $_SERVER['REQUEST_METHOD'];
+    $this->params = (object)[];
   }
   function header($k) {
     return isset($_SERVER["HTTP_$k"]) ? $_SERVER["HTTP_$k"] : null;
@@ -75,12 +76,27 @@ class Router {
   function delete($u, ...$c) {
     $this->routes[] = new Route('DELETE', $u, $c);
   }
+  function match($s, $t) {
+    if(str_contains($t,':') && substr_count($s,'/') == substr_count($t,'/')) {
+      $p = (object)[];
+      $sp = explode('/',$s);
+      $tp = explode('/',$t);
+      for($i=0;$i<count($tp);$i++) {
+        if($tp[$i] && $tp[$i][0] == ':') $p->{substr($tp[$i],1)} = $sp[$i];
+      }
+      return $p;
+    }
+    return null;
+  }
   function run() {
     $req = new Request($this->base);
     $res = new Response();
     foreach($this->routes as $r) {
       if($r->method == $req->method) {
         if($r->route == $req->route) {
+          foreach($r->callbacks as $c) ($c)($req, $res);
+        } elseif($p = $this->match($req->route, $r->route)) {
+          $req->params = $p;
           foreach($r->callbacks as $c) ($c)($req, $res);
         }
       }
