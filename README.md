@@ -8,7 +8,7 @@ Inspired by [Express.js](https://github.com/expressjs/express).
 ## Getting Started
 Just require/include `skibidy.php` into the root file of your endpoint. Only thing you need to make sure of is that your server redirects all routes for that endpoint to the `index.php` in that directory, i.e. via .htaccess if on apache.
 
-If you've used Express.js before, it's very similar that, with some slight variations.
+If you've used Express.js before, it's very similar to that, with some slight variations.
 
 To start, make a new Router instance:
 ```php
