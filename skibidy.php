@@ -3,22 +3,22 @@ class Route {
   public $method;
   public $route;
   public $callbacks;
-  function __construct($m, $r, $c) {
+  function __construct(string $m, string $r, array $c) {
     $this->method = $m;
     $this->route = $r;
-    $this->callbacks = is_array($c) ? $c : [$c];
+    $this->callbacks = $c;
   }
 }
 class Request {
   public $method;
   public $route;
   public $params;
-  function __construct($base = '') {
+  function __construct(string $base = '') {
     $this->route = str_replace($base,'',$_SERVER['REQUEST_URI']);
     $this->method = $_SERVER['REQUEST_METHOD'];
     $this->params = (object)[];
   }
-  function header($k) {
+  function header(string $k) {
     return isset($_SERVER["HTTP_$k"]) ? $_SERVER["HTTP_$k"] : null;
   }
   function body() {
@@ -29,7 +29,7 @@ class Request {
   }
 }
 class Response {
-  function send($d, $t) {
+  function send(mixed $d, string $t) {
     header("Content-Type: $t");
     echo match($t) {
       'application/json' => json_encode($d),
@@ -38,11 +38,11 @@ class Response {
     };
     exit;
   }
-  function json($d) {
+  function json(mixed $d) {
     echo $this->send($d, 'application/json');
   }
-  function file($p) {
-    echo file_get_contents($p);
+  function file(string $f) {
+    echo file_get_contents($f);
     exit;
   }
 }
@@ -53,29 +53,29 @@ class Router {
     $this->base = $b;
     $this->routes = [];
   }
-  function get($u, ...$c) {
+  function get(string $u, mixed ...$c) {
     $this->routes[] = new Route('GET', $u, $c);
   }
-  function post($u, ...$c) {
+  function post(string $u, mixed ...$c) {
     $this->routes[] = new Route('POST', $u, $c);
   }
-  function put($u, ...$c) {
+  function put(string $u, mixed ...$c) {
     $this->routes[] = new Route('PUT', $u, $c);
   }
-  function patch($u, ...$c) {
+  function patch(string $u, mixed ...$c) {
     $this->routes[] = new Route('PATCH', $u, $c);
   }
-  function delete($u, ...$c) {
+  function delete(string $u, mixed ...$c) {
     $this->routes[] = new Route('DELETE', $u, $c);
   }
-  function use($u, Router $r, ...$c) {
+  function use(string $u, Router $r, mixed ...$c) {
     foreach($r->routes as &$sr) {
       $sr->route = rtrim($u.$sr->route,'/');
       if($c) $sr->callbacks = array_merge($c, $sr->callbacks);
     }
     $this->routes = array_merge($this->routes, $r->routes);
   }
-  private function match($s, $t) {
+  private function match(string $s, string $t) {
     if(str_contains($t,':') && substr_count($s,'/') == substr_count($t,'/')) {
       $p = (object)[];
       $sp = explode('/',$s);
