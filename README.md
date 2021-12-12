@@ -1,10 +1,14 @@
 # skibidy
-Simplest PHP, Express-like API router ever
+**Simplest PHP, Express-like API router ever**
+
+Provides a simple, yet robust, REST API endpoint to any PHP web server directory, with support for nested routes and dynamic route parameters.
+
+Inspired by [Express.js](https://github.com/expressjs/express).
 
 ## Getting Started
-Just require/include `skibidy.php` into the root file of your endpoint. Only thing you need to make sure of is that your server redirects all routes to that file, i.e. via .htaccess if on apache.
+Just require/include `skibidy.php` into the root file of your endpoint. Only thing you need to make sure of is that your server redirects all routes for that endpoint to the `index.php` in that directory, i.e. via .htaccess if on apache.
 
-If you've used Express.js before, it's basically that, just with some variations.
+If you've used Express.js before, it's very similar that, with some slight variations.
 
 To start, make a new Router instance:
 ```php
