@@ -77,7 +77,7 @@ Takes an optional string for a base route to prepend to all routes
   - Contains any available dynamic route parameters. Is empty by default.
 
 **Methods**
-- `header(string $k)`
+- `header()`
   - Retrieve a request header's value by key.
 - `body()`
   - Return the request payload body, parsed based on Content-Type header.
@@ -86,10 +86,14 @@ Takes an optional string for a base route to prepend to all routes
 Takes no arguments
 
 **Methods**
-- `send(any $d, string $t)`
-  - Returns a terminating response with a value. Takes any data type to return, and a string for the Content-Type.
-- `json(object $d)`
-  - Returns a terminating JSON response with a value. Takes an object to return.
+- `send()`
+  - Returns a terminating response with a body. Takes any data type to return, a string for the Content-Type, and an optional integer for the HTTP response code.
+- `json()`
+  - Returns a terminating response with a JSON body. Takes an object to return, and an optional integer for the HTTP response code.
+- `file()`
+  - Returns a terminating response with an HTML body. Takes a file path string of which to return the contents, and an optional integer for the HTTP response code.
+- `status()`
+  - Returns a terminating response. Takes an optional integer for the HTTP response code.
 
 ## Examples
 See the `index.php` file for a simple example to help get started
