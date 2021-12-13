@@ -29,8 +29,9 @@ class Request {
   }
 }
 class Response {
-  function send(mixed $d, string $t) {
+  function send(mixed $d, string $t, int $c = 200) {
     header("Content-Type: $t");
+    http_response_code($c);
     echo match($t) {
       'application/json' => json_encode($d),
       'text/html' => $d,
@@ -38,11 +39,16 @@ class Response {
     };
     exit;
   }
-  function json(mixed $d) {
-    echo $this->send($d, 'application/json');
+  function json(mixed $d, int $c = 200) {
+    echo $this->send($d, 'application/json', $c);
   }
-  function file(string $f) {
+  function file(string $f, int $c = 200) {
+    http_response_code($c);
     echo file_get_contents($f);
+    exit;
+  }
+  function status(int $code = 200) {
+    http_response_code($code);
     exit;
   }
 }
