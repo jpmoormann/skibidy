@@ -88,6 +88,7 @@ class Router {
       $tp = explode('/',$t);
       for($i=0;$i<count($tp);$i++) {
         if($tp[$i] && $tp[$i][0] == ':') $p->{substr($tp[$i],1)} = $sp[$i];
+        elseif($tp[$i] !== $sp[$i]) return false;
       }
       return $p;
     }
