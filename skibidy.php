@@ -24,6 +24,7 @@ class Request {
   }
   private function parseQuery(string $q) {
     $parts = explode('&',$q);
+    if(!is_array($parts)) $parts = [$parts];
     foreach($parts as $p) {
       $kv = explode('=',$p);
       $this->query->{$kv[0]} = $kv[1];
