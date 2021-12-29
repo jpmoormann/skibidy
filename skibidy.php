@@ -13,10 +13,21 @@ class Request {
   public $method;
   public $route;
   public $params;
+  public $query;
   function __construct(string $base = '') {
-    $this->route = str_replace($base,'',$_SERVER['REQUEST_URI']);
+    $route = explode('?',str_replace($base,'',$_SERVER['REQUEST_URI']));
+    $this->route = $route[0];
     $this->method = $_SERVER['REQUEST_METHOD'];
+    $this->query = (object)[];
     $this->params = (object)[];
+    if(isset($route[1])) $this->parseQuery($route[1]);
+  }
+  private function parseQuery(string $q) {
+    $parts = explode('&',$q);
+    foreach($parts as $p) {
+      $kv = explode('=',$p);
+      $this->query->{$kv[0]} = $kv[1];
+    }
   }
   function header(string $k) {
     return isset($_SERVER["HTTP_$k"]) ? $_SERVER["HTTP_$k"] : null;
