@@ -81,6 +81,8 @@ Takes an optional string for a base route to prepend to all routes
   - Retrieve a request header's value by key.
 - `body()`
   - Return the request payload body, parsed based on Content-Type header.
+- `files()`
+  - Takes a string for the formdata field name. Returns an uploaded file object, including file name, temp file name, size, and data type.
 
 ### `Response`
 Takes no arguments
