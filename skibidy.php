@@ -38,6 +38,9 @@ class Request {
       default => file_get_contents('php://input')
     };
   }
+  function files($key) {
+    return (object)($_FILES[$key]);
+  }
 }
 class Response {
   function send(mixed $d, string $t, int $c = 200) {
