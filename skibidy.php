@@ -47,7 +47,7 @@ class Response {
     header("Content-Type: $t");
     http_response_code($c);
     echo match($t) {
-      'application/json' => json_encode($d),
+      'application/json' => json_encode($d,JSON_UNESCAPED_SLASHES),
       'text/html' => $d,
       default => $d
     };
