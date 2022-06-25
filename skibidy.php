@@ -116,7 +116,7 @@ class Router
     }
     $this->routes = array_merge($this->routes, $r->routes);
   }
-  private function match(string $s, string $t)
+  private function matchUri(string $s, string $t)
   {
     if (str_contains($t, ':') && substr_count($s, '/') == substr_count($t, '/')) {
       $p = (object)[];
@@ -138,7 +138,7 @@ class Router
       if ($r->method == $req->method) {
         if ($r->route == $req->route) {
           foreach ($r->callbacks as $c) ($c)($req, $res);
-        } elseif ($p = $this->match($req->route, $r->route)) {
+        } elseif ($p = $this->matchUri($req->route, $r->route)) {
           $req->params = $p;
           foreach ($r->callbacks as $c) ($c)($req, $res);
         }
